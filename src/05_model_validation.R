@@ -53,3 +53,4 @@ if (!dir.exists(here("results"))) {
 }
 
 write_csv(df_model, here("results", "scored_policies.csv"))
+write_csv(segment_validation, here("results", "segment_res.csv"))
