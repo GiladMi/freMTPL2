@@ -1,0 +1,32 @@
+# R related
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj.user
+
+*.tmp
+*.bak
+
+# Processed data
+data/
+results/
+
+# Excel related
+~$*.xlsx
+~$*.xlsm
+~$*.xls
+~&*.csv
+
+# OS
+# macOS
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
