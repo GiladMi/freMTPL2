@@ -25,14 +25,19 @@ print(summary(freq_model))
 saveRDS(freq_model, here("data", "freq_model.rds"))
 
 # Severity Model (Gamma GLM)
-# Target: Total_Severity (Total 'capped' claim amount)
+# Target: average 'capped' severity PER CLAIM, weighted by the number of claims.
+# (Fitting the policy-level total and then multiplying by the expected claim COUNT
+# double-counts policies with several claims: ~+6% bias on the portfolio.)
 
-df_sev <- df_model |> filter(Sev_ClaimCount > 0)
+df_sev <- df_model |>
+  filter(Sev_ClaimCount > 0) |>
+  mutate(Avg_Severity = Total_Severity / Sev_ClaimCount)
 
 sev_model <- glm(
-  Total_Severity ~ DrivAge_Bin + VehPower + VehBrand + Area,
+  Avg_Severity ~ DrivAge_Bin + VehPower + VehBrand + Area,
   family = Gamma(link = "log"),
-  data = df_sev
+  data = df_sev,
+  weights = Sev_ClaimCount
 )
 
 print(summary(sev_model))

@@ -22,7 +22,8 @@ df_model$Pred_Sev <- predict(sev_model, newdata = df_model, type = "response")
 df_model$Pred_PP_FreqSev <- df_model$Pred_Freq * df_model$Pred_Sev
 
 # Calculate Tweedie model prediction
-df_model$Pred_PP_Tweedie <- predict(tweedie_model, newdata = df_model, type = "response")# <- pred_tweedie_agg 
+# The Tweedie model predicts pure premium PER EXPOSURE-YEAR, so scale by Exposure to get expected loss
+df_model$Pred_PP_Tweedie <- predict(tweedie_model, newdata = df_model, type = "response") * df_model$Exposure
 
 cat("\n=== ACTUARIAL MODEL VALIDATION ===\n")
 cat(sprintf("Actual Portfolio Pure Premium:      €%.2f\n", 
